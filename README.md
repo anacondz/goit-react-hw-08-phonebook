@@ -1,1 +1,1 @@
-# Create React App Template v0.1.2
+# GoIT React HW 08 (Phonebook)
