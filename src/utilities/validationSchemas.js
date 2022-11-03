@@ -13,12 +13,15 @@ export const registerSchema = yup.object({
     .required('Please enter your password.')
     .matches(
       PASSWORD_PATTERN,
-      'Digits, capital and small letters. Length > 8.'
+      'Digits, capital and small letters. Min length 8.'
     ),
   passwordConfirmation: yup
     .string()
     .required('Please confirm your password.')
-    .matches(PASSWORD_PATTERN, 'Digits, capital and small letters. Length > 8.')
+    .matches(
+      PASSWORD_PATTERN,
+      'Digits, capital and small letters. Min length 8.'
+    )
     .oneOf([yup.ref('password'), null], 'Passwords must match.'),
 });
 
