@@ -1,7 +1,12 @@
-import { NavLink } from 'react-router-dom';
 import { useAuth } from 'hooks/useAuth';
 import { useDispatch } from 'react-redux';
 import { logOut } from 'redux/auth/authOperations';
+import {
+  FilterContainer,
+  PageLogo,
+  StyledAppBar,
+  UserNavLink,
+} from './AppBarStyled';
 
 export const AppBar = () => {
   const dispatch = useDispatch();
@@ -15,7 +20,9 @@ export const AppBar = () => {
   };
 
   return (
-    <div>
+    <StyledAppBar>
+      <PageLogo>The Phonebook</PageLogo>
+      <FilterContainer></FilterContainer>
       {isLoggedIn ? (
         <div>
           <div>{`Welcome, ${name}`}</div>
@@ -25,10 +32,10 @@ export const AppBar = () => {
         </div>
       ) : (
         <nav>
-          <NavLink to="/">Login</NavLink>
-          <NavLink to="/register">Register</NavLink>
+          <UserNavLink to="/">Login</UserNavLink>
+          <UserNavLink to="/register">Register</UserNavLink>
         </nav>
       )}
-    </div>
+    </StyledAppBar>
   );
 };

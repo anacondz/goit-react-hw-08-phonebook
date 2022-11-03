@@ -4,7 +4,10 @@ import { AppBar } from './AppBar/AppBar';
 export const MainLayout = () => (
   <>
     <AppBar />
-    <hr />
-    <Outlet />
+    <main>
+      <section>
+        <Outlet />
+      </section>
+    </main>
   </>
 );
