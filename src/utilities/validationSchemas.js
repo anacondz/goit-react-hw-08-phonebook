@@ -33,3 +33,14 @@ export const loginSchema = yup.object({
     .required('Please enter your email address.'),
   password: yup.string().required('Please enter your password.'),
 });
+
+export const contactSchema = yup.object({
+  firstName: yup.string().trim().required('Please enter contact name.'),
+  secondName: yup.string().trim().required('Please enter contact second name.'),
+  email: yup
+    .string()
+    .trim()
+    .email('Invalid email format.')
+    .required('Please enter contact email.'),
+  number: yup.string().trim().required('Please enter contact phone number.'),
+});

@@ -20,7 +20,7 @@ export const UserGreetings = styled('p')`
   text-align: center;
 `;
 
-export const UserName = styled('h3')`
+export const UserName = styled('h4')`
   display: block;
 
   flex-grow: 1;
@@ -28,5 +28,6 @@ export const UserName = styled('h3')`
   width: min-content;
   margin-top: 0;
 
+  font-size: 26px;
   text-align: center;
 `;

@@ -7,11 +7,9 @@ export const contactsApi = createApi({
     baseUrl: API_BASE_URL,
     prepareHeaders: (headers, { getState }) => {
       const token = getState().auth.token;
-
       if (token) {
         headers.set('Authorization', `Bearer ${token}`);
       }
-
       return headers;
     },
   }),
@@ -19,6 +17,16 @@ export const contactsApi = createApi({
   endpoints: builder => ({
     getContacts: builder.query({
       query: () => `/contacts`,
+      transformResponse: response => {
+        return response.map(({ id, number, name }) => {
+          try {
+            const parsedName = JSON.parse(name);
+            return { id, ...parsedName, number };
+          } catch {
+            return { id, firstName: name, secondName: '', email: '', number };
+          }
+        });
+      },
       providesTags: ['Contacts'],
     }),
     addContact: builder.mutation({

@@ -15,7 +15,7 @@ export const FormWindow = styled('div')`
 
   min-width: 300px;
   width: 380px;
-  padding: 40px;
+  padding: 30px;
 
   border-radius: 10px;
   background-color: white;

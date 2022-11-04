@@ -5,14 +5,18 @@ import { UserMenu } from 'components/UserMenu/UserMenu';
 import { FilterContainer, PageLogo, StyledAppBar } from './AppBarStyled';
 
 export const AppBar = () => {
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, isRefreshing } = useAuth();
 
   return (
     <StyledAppBar>
       <PageLogo>The Phonebook</PageLogo>
-      <FilterContainer>
-        <FilterField />
-      </FilterContainer>
+
+      {isLoggedIn && !isRefreshing ? (
+        <FilterContainer>
+          <FilterField />
+        </FilterContainer>
+      ) : null}
+
       {isLoggedIn ? <UserMenu /> : <MainNavigation />}
     </StyledAppBar>
   );

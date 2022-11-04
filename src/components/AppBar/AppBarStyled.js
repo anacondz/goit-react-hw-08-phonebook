@@ -9,10 +9,14 @@ export const StyledAppBar = styled(AppBar)`
   justify-content: space-between;
   align-items: center;
 
-  padding: 20px;
+  padding: 14px 20px;
 `;
 
 export const PageLogo = styled('h1')`
+  display: flex;
+  align-items: center;
+
+  height: 48px;
   margin: 0;
 `;
 

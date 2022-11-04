@@ -1,8 +1,8 @@
 import { useDispatch } from 'react-redux';
 import { useForm, Controller } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { useAuth } from 'hooks/useAuth';
 import { registerUser } from 'redux/auth/authOperations';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { registerSchema } from 'utilities/validationSchemas';
 import { PublicPageContainer } from 'components/PublicPageContainer/PublicPageContainer';
 import {
