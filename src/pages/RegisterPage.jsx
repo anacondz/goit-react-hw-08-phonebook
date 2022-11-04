@@ -65,7 +65,7 @@ export const RegisterPage = () => {
           render={({ field }) => (
             <ComonInput
               {...field}
-              type="text"
+              type="email"
               label="Email"
               error={errors.email ? true : false}
               helperText={errors.email ? errors.email.message : ' '}
@@ -109,6 +109,7 @@ export const RegisterPage = () => {
         <ComonButton
           type="submit"
           variant="contained"
+          loading={isPending}
           disabled={
             errors.name ||
             errors.email ||

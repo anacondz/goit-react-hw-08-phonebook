@@ -1,41 +1,16 @@
+import { MainNavigation } from 'components/MainNavigation/MainNavigation';
+import { UserMenu } from 'components/UserMenu/UserMenu';
 import { useAuth } from 'hooks/useAuth';
-import { useDispatch } from 'react-redux';
-import { logOut } from 'redux/auth/authOperations';
-import {
-  FilterContainer,
-  PageLogo,
-  StyledAppBar,
-  UserNavLink,
-} from './AppBarStyled';
+import { FilterContainer, PageLogo, StyledAppBar } from './AppBarStyled';
 
 export const AppBar = () => {
-  const dispatch = useDispatch();
-  const {
-    user: { name },
-    isLoggedIn,
-  } = useAuth();
-
-  const logoutHandler = () => {
-    dispatch(logOut());
-  };
+  const { isLoggedIn } = useAuth();
 
   return (
     <StyledAppBar>
       <PageLogo>The Phonebook</PageLogo>
       <FilterContainer></FilterContainer>
-      {isLoggedIn ? (
-        <div>
-          <div>{`Welcome, ${name}`}</div>
-          <button type="button" onClick={logoutHandler}>
-            Logout
-          </button>
-        </div>
-      ) : (
-        <nav>
-          <UserNavLink to="/">Login</UserNavLink>
-          <UserNavLink to="/register">Register</UserNavLink>
-        </nav>
-      )}
+      {isLoggedIn ? <UserMenu /> : <MainNavigation />}
     </StyledAppBar>
   );
 };
