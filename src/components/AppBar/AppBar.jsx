@@ -1,6 +1,7 @@
+import { useAuth } from 'hooks/useAuth';
+import { FilterField } from 'components/FilterField/FilterField';
 import { MainNavigation } from 'components/MainNavigation/MainNavigation';
 import { UserMenu } from 'components/UserMenu/UserMenu';
-import { useAuth } from 'hooks/useAuth';
 import { FilterContainer, PageLogo, StyledAppBar } from './AppBarStyled';
 
 export const AppBar = () => {
@@ -9,7 +10,9 @@ export const AppBar = () => {
   return (
     <StyledAppBar>
       <PageLogo>The Phonebook</PageLogo>
-      <FilterContainer></FilterContainer>
+      <FilterContainer>
+        <FilterField />
+      </FilterContainer>
       {isLoggedIn ? <UserMenu /> : <MainNavigation />}
     </StyledAppBar>
   );

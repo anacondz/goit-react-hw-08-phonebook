@@ -27,7 +27,7 @@ export const UserMenu = () => {
   return (
     <>
       <IconButton
-        sx={{ p: 0 }}
+        sx={{ p: 0, boxShadow: 2 }}
         disabled={isMenuShown}
         onClick={() => setIsMenuShown(true)}
       >

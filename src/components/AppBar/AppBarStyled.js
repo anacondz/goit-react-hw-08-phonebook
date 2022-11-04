@@ -6,6 +6,7 @@ export const StyledAppBar = styled(AppBar)`
 
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   align-items: center;
 
   padding: 20px;
@@ -16,5 +17,9 @@ export const PageLogo = styled('h1')`
 `;
 
 export const FilterContainer = styled('div')`
-  flex-grow: 1;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  transform: translate(-50%, -50%);
 `;
