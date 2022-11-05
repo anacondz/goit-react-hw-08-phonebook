@@ -1,15 +1,22 @@
 import PropTypes from 'prop-types';
+import { forwardRef } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Backdrop, Modal, Fade } from '@mui/material';
-import { ModalContainer, ModalTitle } from './ContactModalStyled';
+import { IMaskInput } from 'react-imask';
 import { useAddContactMutation } from 'redux/contacts/contactsApi';
+import { Backdrop, Modal, Fade, InputAdornment, Button } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
+import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
+import PersonAddAltOutlinedIcon from '@mui/icons-material/PersonAddAltOutlined';
+import AlternateEmailOutlinedIcon from '@mui/icons-material/AlternateEmailOutlined';
+import PhoneAndroidOutlinedIcon from '@mui/icons-material/PhoneAndroidOutlined';
 import { contactSchema } from 'utilities/validationSchemas';
+import { ComonInput, ComonLinearProgress } from 'components/shared';
 import {
-  ComonInput,
-  ComonButton,
-  ComonLinearProgress,
-} from 'components/shared';
+  ButtonsContainer,
+  ModalContainer,
+  ModalTitle,
+} from './ContactModalStyled';
 
 export const ContactModal = ({ context, isOpen, setIsOpen }) => {
   const [addContact, { isLoading }] = useAddContactMutation();
@@ -28,17 +35,34 @@ export const ContactModal = ({ context, isOpen, setIsOpen }) => {
     },
   });
 
+  const closeModal = () => {
+    reset();
+    setIsOpen(false);
+  };
+
   const onContactFormSubmit = ({ firstName, secondName, email, number }) =>
     addContact({
       name: JSON.stringify({ firstName, secondName, email }),
       number,
     })
       .unwrap()
-      .then(() => {
-        reset();
-        setIsOpen(false);
-      })
+      .then(closeModal)
       .catch(() => console.log('error!!!!!!!!!!!!!!!!!!!!!!!!!'));
+
+  const TextMaskCustom = forwardRef((props, ref) => {
+    const { onChange, ...other } = props;
+
+    return (
+      <IMaskInput
+        {...other}
+        mask="{+38} (000) 000-00-00"
+        unmask={true}
+        inputRef={ref}
+        onAccept={value => onChange({ target: { name: props.name, value } })}
+        overwrite
+      />
+    );
+  });
 
   return (
     <Modal
@@ -47,6 +71,7 @@ export const ContactModal = ({ context, isOpen, setIsOpen }) => {
         reset();
         setIsOpen(false);
       }}
+      aria-labelledby="modal-title"
       closeAfterTransition
       BackdropComponent={Backdrop}
       BackdropProps={{
@@ -55,7 +80,7 @@ export const ContactModal = ({ context, isOpen, setIsOpen }) => {
     >
       <Fade in={isOpen}>
         <ModalContainer>
-          <ModalTitle>
+          <ModalTitle id="modal-title">
             {context === 'add' ? 'Add new contact' : 'Update contact'}
           </ModalTitle>
           <form
@@ -69,11 +94,20 @@ export const ContactModal = ({ context, isOpen, setIsOpen }) => {
               render={({ field }) => (
                 <ComonInput
                   {...field}
+                  size="small"
+                  fullWidth
                   type="text"
                   label="First Name"
                   error={errors.firstName ? true : false}
                   helperText={errors.firstName ? errors.firstName.message : ' '}
                   disabled={isLoading}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <PersonOutlineOutlinedIcon />
+                      </InputAdornment>
+                    ),
+                  }}
                 />
               )}
             />
@@ -83,6 +117,8 @@ export const ContactModal = ({ context, isOpen, setIsOpen }) => {
               render={({ field }) => (
                 <ComonInput
                   {...field}
+                  size="small"
+                  fullWidth
                   type="text"
                   label="Second Name"
                   error={errors.secondName ? true : false}
@@ -90,6 +126,13 @@ export const ContactModal = ({ context, isOpen, setIsOpen }) => {
                     errors.secondName ? errors.secondName.message : ' '
                   }
                   disabled={isLoading}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <PersonAddAltOutlinedIcon />
+                      </InputAdornment>
+                    ),
+                  }}
                 />
               )}
             />
@@ -99,11 +142,20 @@ export const ContactModal = ({ context, isOpen, setIsOpen }) => {
               render={({ field }) => (
                 <ComonInput
                   {...field}
+                  size="small"
+                  fullWidth
                   type="email"
                   label="Email"
                   error={errors.email ? true : false}
                   helperText={errors.email ? errors.email.message : ' '}
                   disabled={isLoading}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <AlternateEmailOutlinedIcon />
+                      </InputAdornment>
+                    ),
+                  }}
                 />
               )}
             />
@@ -113,31 +165,54 @@ export const ContactModal = ({ context, isOpen, setIsOpen }) => {
               render={({ field }) => (
                 <ComonInput
                   {...field}
+                  size="small"
+                  fullWidth
                   type="text"
-                  label="Phone number"
+                  label="Phone Number"
                   error={errors.number ? true : false}
                   helperText={errors.number ? errors.number.message : ' '}
                   disabled={isLoading}
+                  autoFocus={errors.number ? true : false}
+                  InputProps={{
+                    inputComponent: TextMaskCustom,
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <PhoneAndroidOutlinedIcon />
+                      </InputAdornment>
+                    ),
+                  }}
                 />
               )}
             />
-
-            <ComonButton
-              type="submit"
-              variant="contained"
-              loading={isLoading}
-              disabled={
-                errors.firstName ||
-                errors.secondName ||
-                errors.email ||
-                errors.number ||
-                isLoading
-                  ? true
-                  : false
-              }
-            >
-              {context === 'add' ? 'Add' : 'Update'}
-            </ComonButton>
+            <ButtonsContainer>
+              <Button
+                variant="outlined"
+                color="error"
+                fullWidth
+                tabIndex={5}
+                onClick={closeModal}
+              >
+                Cancel
+              </Button>
+              <LoadingButton
+                type="submit"
+                variant="contained"
+                fullWidth
+                tabIndex={4}
+                loading={isLoading}
+                disabled={
+                  errors.firstName ||
+                  errors.secondName ||
+                  errors.email ||
+                  errors.number ||
+                  isLoading
+                    ? true
+                    : false
+                }
+              >
+                {context === 'add' ? 'Add' : 'Update'}
+              </LoadingButton>
+            </ButtonsContainer>
             <ComonLinearProgress isvisible={isLoading ? '1' : '0'} />
           </form>
         </ModalContainer>

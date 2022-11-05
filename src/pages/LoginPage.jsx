@@ -1,13 +1,16 @@
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useForm, Controller } from 'react-hook-form';
 import { useAuth } from 'hooks/useAuth';
 import { logIn } from 'redux/auth/authOperations';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { LoadingButton } from '@mui/lab';
+import { IconButton, InputAdornment } from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { loginSchema } from 'utilities/validationSchemas';
 import { PublicPageContainer } from 'components/PublicPageContainer/PublicPageContainer';
 import {
   ComonInput,
-  ComonButton,
   ComonLinearProgress,
   ComonLink,
   ComonParagraph,
@@ -16,6 +19,7 @@ import {
 export const LoginPage = () => {
   const dispatch = useDispatch();
   const { isPending } = useAuth();
+  const [passwordVisibility, setPasswordVisibility] = useState(false);
   const {
     control,
     handleSubmit,
@@ -45,6 +49,8 @@ export const LoginPage = () => {
           render={({ field }) => (
             <ComonInput
               {...field}
+              size="small"
+              fullWidth
               type="email"
               label="Email"
               error={errors.email ? true : false}
@@ -59,11 +65,27 @@ export const LoginPage = () => {
           render={({ field }) => (
             <ComonInput
               {...field}
-              type="password"
+              id="password"
+              size="small"
+              fullWidth
+              type={passwordVisibility ? 'text' : 'password'}
               label="Password"
               error={errors.password ? true : false}
               helperText={errors.password ? errors.password.message : ' '}
               disabled={isPending}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="Toggle password visibility"
+                      onClick={() => setPasswordVisibility(!passwordVisibility)}
+                      edge="end"
+                    >
+                      {passwordVisibility ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
             />
           )}
         />
@@ -72,14 +94,15 @@ export const LoginPage = () => {
           <ComonLink to="/register">register</ComonLink>
           {'.'}
         </ComonParagraph>
-        <ComonButton
+        <LoadingButton
+          fullWidth
           type="submit"
           variant="contained"
           loading={isPending}
           disabled={errors.email || errors.password || isPending ? true : false}
         >
           Login
-        </ComonButton>
+        </LoadingButton>
         <ComonLinearProgress isvisible={isPending ? '1' : '0'} />
       </form>
     </PublicPageContainer>

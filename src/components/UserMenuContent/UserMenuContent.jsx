@@ -9,7 +9,7 @@ import {
   UserGreetings,
   UserName,
 } from './UserMenuContentStyled';
-import { ComonButton } from 'components/shared';
+import { LoadingButton } from '@mui/lab';
 
 export const UserMenuContent = ({ avatarChildren }) => {
   const dispatch = useDispatch();
@@ -26,7 +26,8 @@ export const UserMenuContent = ({ avatarChildren }) => {
       />
       <UserGreetings>Welcome!</UserGreetings>
       <UserName>{name}</UserName>
-      <ComonButton
+      <LoadingButton
+        fullWidth
         variant="contained"
         color="error"
         loading={isPending}
@@ -36,7 +37,7 @@ export const UserMenuContent = ({ avatarChildren }) => {
         }}
       >
         Logout
-      </ComonButton>
+      </LoadingButton>
     </ContentContainer>
   );
 };

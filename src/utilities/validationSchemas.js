@@ -35,12 +35,15 @@ export const loginSchema = yup.object({
 });
 
 export const contactSchema = yup.object({
-  firstName: yup.string().trim().required('Please enter contact name.'),
-  secondName: yup.string().trim().required('Please enter contact second name.'),
-  email: yup
+  firstName: yup
     .string()
     .trim()
-    .email('Invalid email format.')
-    .required('Please enter contact email.'),
-  number: yup.string().trim().required('Please enter contact phone number.'),
+    .required('Please enter contact name.')
+    .min(2, 'Must contain at least two symbols.'),
+  secondName: yup.string().trim(),
+  email: yup.string().trim().email('Invalid email format.'),
+  number: yup
+    .string()
+    .required('Please enter contact phone number.')
+    .min(13, 'Invalid phone number format.'),
 });

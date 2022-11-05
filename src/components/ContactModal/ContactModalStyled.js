@@ -28,3 +28,15 @@ export const ModalTitle = styled('h3')`
   font-size: 26px;
   text-align: center;
 `;
+
+export const ButtonsContainer = styled('div')`
+  display: flex;
+
+  & button:first-of-type {
+    margin-right: 15px;
+  }
+
+  & button:last-of-type {
+    margin-left: 15px;
+  }
+`;
