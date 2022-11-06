@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { useEffect } from 'react';
 import { forwardRef } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -6,6 +7,7 @@ import { IMaskInput } from 'react-imask';
 import {
   useAddContactMutation,
   useEditContactMutation,
+  useGetContactsQuery,
 } from 'redux/contacts/contactsApi';
 import { Backdrop, Modal, Fade, InputAdornment, Button } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
@@ -13,27 +15,28 @@ import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined
 import PersonAddAltOutlinedIcon from '@mui/icons-material/PersonAddAltOutlined';
 import AlternateEmailOutlinedIcon from '@mui/icons-material/AlternateEmailOutlined';
 import PhoneAndroidOutlinedIcon from '@mui/icons-material/PhoneAndroidOutlined';
-import { contactSchema } from 'utilities/validationSchemas';
+import { createNewValidationSchema } from 'utilities/validationSchemas';
 import { ComonInput, ComonLinearProgress } from 'components/shared';
 import {
   ButtonsContainer,
   ModalContainer,
   ModalTitle,
 } from 'components/shared';
-import { useEffect } from 'react';
 
 export const ContactModal = ({ contact, isOpened, setIsOpened }) => {
+  const { data: contacts, isSuccess } = useGetContactsQuery();
   const [addContact, { isLoading: isAddContactLoading }] =
     useAddContactMutation();
   const [editContact, { isLoading: isEditContactLoading }] =
     useEditContactMutation();
+
+  const contactSchema = createNewValidationSchema(contacts, isSuccess, contact);
 
   const {
     control,
     handleSubmit,
     reset,
     setValue,
-    // getValues,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(contactSchema),
@@ -56,23 +59,6 @@ export const ContactModal = ({ contact, isOpened, setIsOpened }) => {
     setIsOpened(false);
   };
 
-  // const disabledStateHandle = () => {
-  //   if (contact) {
-  //     const formValues = getValues();
-
-  //     const valuesComparsion = [
-  //       formValues.firstName === defaultValues.firstName,
-  //       formValues.secondName === defaultValues.secondName,
-  //       formValues.email === defaultValues.email,
-  //       formValues.number === defaultValues.number,
-  //     ];
-
-  //     console.log(valuesComparsion.every(value => value === true));
-  //   }
-  // };
-
-  // disabledStateHandle();
-
   const onContactFormSubmit = ({ firstName, secondName, email, number }) => {
     const name = JSON.stringify({ firstName, secondName, email });
 
@@ -86,7 +72,7 @@ export const ContactModal = ({ contact, isOpened, setIsOpened }) => {
       })
         .unwrap()
         .then(closeModal)
-        .catch(error => console.log('error!!!!!!!!!!!!!!!!!!!!!!!!!', error));
+        .catch();
     } else {
       addContact({
         name,
@@ -94,7 +80,7 @@ export const ContactModal = ({ contact, isOpened, setIsOpened }) => {
       })
         .unwrap()
         .then(closeModal)
-        .catch(() => console.log('error!!!!!!!!!!!!!!!!!!!!!!!!!'));
+        .catch();
     }
   };
 
@@ -218,7 +204,6 @@ export const ContactModal = ({ contact, isOpened, setIsOpened }) => {
                   error={errors.number ? true : false}
                   helperText={errors.number ? errors.number.message : ' '}
                   disabled={isAddContactLoading || isEditContactLoading}
-                  autoFocus={errors.number ? true : false}
                   InputProps={{
                     inputComponent: TextMaskCustom,
                     endAdornment: (

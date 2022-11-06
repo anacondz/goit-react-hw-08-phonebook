@@ -40,9 +40,9 @@ export const ContactCard = ({ contact }) => {
             {cardNumberFormating(number)}
           </PhoneLinkContainer>
           {email ? (
-            <EmailLinkContainer href={`mailto:${email}`}>
+            <EmailLinkContainer href={`mailto:${email.toLowerCase()}`}>
               <AlternateEmailOutlinedIcon color="primary" />
-              {email}
+              {email.toLowerCase()}
             </EmailLinkContainer>
           ) : null}
         </ContactContent>

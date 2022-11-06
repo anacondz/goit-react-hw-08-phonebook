@@ -139,7 +139,6 @@ export const EmailLinkContainer = styled('a')`
   margin-top: 10px;
 
   font-size: 12px;
-  font-weight: 600;
 
   color: ${({ theme }) => theme.palette.text.primary};
 

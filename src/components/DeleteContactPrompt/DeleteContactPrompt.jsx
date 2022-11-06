@@ -27,7 +27,7 @@ export const DeleteContactPrompt = ({
     deleteContact(id)
       .unwrap()
       .then(() => setIsOpened(false))
-      .catch(() => console.log('error!!!!!!!!!!!!!!!!!!!!!!!!!'));
+      .catch();
 
   return (
     <Modal
