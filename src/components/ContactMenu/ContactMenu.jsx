@@ -8,9 +8,6 @@ import { IconButton, Menu, MenuItem } from '@mui/material';
 import { ContactMenuWrapper, MenuItemText } from './ContactMenuStyled';
 
 export const ContactMenu = ({
-  id,
-  firstName,
-  secondName,
   isMenuOpened,
   setIsMenuOpened,
   setIsDeletePromptOpened,
@@ -69,9 +66,6 @@ export const ContactMenu = ({
 };
 
 ContactMenu.propTypes = {
-  id: PropTypes.string.isRequired,
-  firstName: PropTypes.string.isRequired,
-  secondName: PropTypes.string.isRequired,
   isMenuOpened: PropTypes.bool.isRequired,
   setIsMenuOpened: PropTypes.func.isRequired,
   setIsDeletePromptOpened: PropTypes.func.isRequired,

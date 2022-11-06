@@ -46,9 +46,6 @@ export const ContactCard = ({ contact }) => {
         </ContactContent>
       </ContentDivider>
       <ContactMenu
-        id={id}
-        firstName={firstName}
-        secondName={secondName}
         isMenuOpened={isMenuOpened}
         setIsMenuOpened={setIsMenuOpened}
         setIsDeletePromptOpened={setIsDeletePromptOpened}

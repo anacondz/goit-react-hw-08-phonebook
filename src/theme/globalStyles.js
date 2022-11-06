@@ -1,6 +1,10 @@
 import backgroundImage from 'images/bg.svg';
 
 export const globalStyles = {
+  html: {
+    background: 'linear-gradient(#000000, #000000)',
+  },
+
   body: {
     background: `linear-gradient(#000000a0, #000000a0), url(${backgroundImage})`,
     backgroundRepeat: 'no-repeat',
