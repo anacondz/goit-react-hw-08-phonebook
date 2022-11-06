@@ -18,35 +18,29 @@ export const PhonebookPage = () => {
     isSuccess
   );
 
-  if (isSuccess && contacts.length === 0)
-    return (
-      <>
-        <InvisiblePageTitle>Contacts</InvisiblePageTitle>
+  return (
+    <>
+      <InvisiblePageTitle>Contacts</InvisiblePageTitle>
+
+      {isSuccess && contacts.length === 0 ? (
         <MessageContainer>
           Welcome {user.name}!
           <br />
           Your phonebook is epmty for now.
         </MessageContainer>
-      </>
-    );
+      ) : null}
 
-  if (isSuccess && preparedContacts.length === 0 && contacts.length !== 0)
-    return (
-      <>
-        <InvisiblePageTitle>Contacts</InvisiblePageTitle>
+      {isSuccess && preparedContacts.length === 0 && contacts.length !== 0 ? (
         <MessageContainer>Sorry, nothing was found.</MessageContainer>
-      </>
-    );
+      ) : null}
 
-  if (isSuccess && preparedContacts.length !== 0 && contacts.length !== 0)
-    return (
-      <>
-        <InvisiblePageTitle>Contacts</InvisiblePageTitle>
+      {isSuccess && preparedContacts.length !== 0 && contacts.length !== 0 ? (
         <ContactList>
           {preparedContacts.map(contact => (
             <ContactCard key={contact.id} contact={contact} />
           ))}
         </ContactList>
-      </>
-    );
+      ) : null}
+    </>
+  );
 };
