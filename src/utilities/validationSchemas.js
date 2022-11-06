@@ -67,7 +67,7 @@ export const createNewValidationSchema = (
     firstName: yup
       .string()
       .trim()
-      .required('Please enter contact name.')
+      .required('Please enter contact first name.')
       .matches(NAME_PATTERN, 'Invalid name format.')
       .min(2, 'Must contain at least 2 symbols.')
       .max(30, 'Must contain max 40 symbols.'),
@@ -75,7 +75,7 @@ export const createNewValidationSchema = (
     secondName: yup
       .string()
       .trim()
-      .required('Please enter contact name.')
+      .required('Please enter contact second name.')
       .matches(NAME_PATTERN, 'Invalid name format.')
       .min(2, 'Must contain at least 2 symbols.')
       .max(30, 'Must contain max 40 symbols.'),

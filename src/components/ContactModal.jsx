@@ -55,7 +55,7 @@ export const ContactModal = ({ contact, isOpened, setIsOpened }) => {
   }, [contact, isOpened, setValue]);
 
   const closeModal = () => {
-    !contact && reset();
+    reset();
     setIsOpened(false);
   };
 
