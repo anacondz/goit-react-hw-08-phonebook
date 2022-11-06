@@ -199,7 +199,7 @@ export const ContactModal = ({ contact, isOpened, setIsOpened }) => {
                   {...field}
                   size="small"
                   fullWidth
-                  type="text"
+                  type="tel"
                   label="Phone Number"
                   error={errors.number ? true : false}
                   helperText={errors.number ? errors.number.message : ' '}
