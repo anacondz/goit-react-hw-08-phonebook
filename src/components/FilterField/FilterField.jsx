@@ -31,11 +31,7 @@ export const FilterField = () => {
       >
         Add
       </AddButton>
-      <ContactModal
-        context="add"
-        isOpened={isModalOpened}
-        setIsOpened={setIsModalOpened}
-      />
+      <ContactModal isOpened={isModalOpened} setIsOpened={setIsModalOpened} />
     </FilterContainer>
   );
 };

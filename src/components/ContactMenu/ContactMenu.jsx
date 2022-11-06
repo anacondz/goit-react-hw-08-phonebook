@@ -8,8 +8,9 @@ import { IconButton, Menu, MenuItem } from '@mui/material';
 import { ContactMenuWrapper, MenuItemText } from './ContactMenuStyled';
 
 export const ContactMenu = ({
-  isMenuOpened,
-  setIsMenuOpened,
+  isOpened,
+  setIsOpened,
+  setIsContactModalOpened,
   setIsDeletePromptOpened,
 }) => {
   const contactMenuButton = useRef(null);
@@ -20,10 +21,10 @@ export const ContactMenu = ({
         aria-label="Contact menu"
         id="contact-menu-button"
         ref={contactMenuButton}
-        aria-controls={isMenuOpened ? 'contact-menu' : false}
-        aria-expanded={isMenuOpened ? 'true' : false}
+        aria-controls={isOpened ? 'contact-menu' : false}
+        aria-expanded={isOpened ? 'true' : false}
         aria-haspopup="true"
-        onClick={() => setIsMenuOpened(!isMenuOpened)}
+        onClick={() => setIsOpened(!isOpened)}
       >
         <MoreVertOutlinedIcon />
       </IconButton>
@@ -41,11 +42,14 @@ export const ContactMenu = ({
           horizontal: 'right',
         }}
         anchorEl={contactMenuButton.current}
-        open={isMenuOpened}
-        onClose={() => setIsMenuOpened(false)}
+        open={isOpened}
+        onClose={() => setIsOpened(false)}
       >
         <MenuItem
-        // onClick={handleClose}
+          onClick={() => {
+            setIsOpened(false);
+            setIsContactModalOpened(true);
+          }}
         >
           <EditOutlinedIcon />
           <MenuItemText>Edit contact</MenuItemText>
@@ -53,7 +57,7 @@ export const ContactMenu = ({
         <Divider />
         <MenuItem
           onClick={() => {
-            setIsMenuOpened(false);
+            setIsOpened(false);
             setIsDeletePromptOpened(true);
           }}
         >
@@ -66,7 +70,8 @@ export const ContactMenu = ({
 };
 
 ContactMenu.propTypes = {
-  isMenuOpened: PropTypes.bool.isRequired,
-  setIsMenuOpened: PropTypes.func.isRequired,
+  isOpened: PropTypes.bool.isRequired,
+  setIsOpened: PropTypes.func.isRequired,
+  setIsContactModalOpened: PropTypes.func.isRequired,
   setIsDeletePromptOpened: PropTypes.func.isRequired,
 };

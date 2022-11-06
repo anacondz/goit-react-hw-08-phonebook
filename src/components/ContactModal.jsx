@@ -3,7 +3,10 @@ import { forwardRef } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { IMaskInput } from 'react-imask';
-import { useAddContactMutation } from 'redux/contacts/contactsApi';
+import {
+  useAddContactMutation,
+  useEditContactMutation,
+} from 'redux/contacts/contactsApi';
 import { Backdrop, Modal, Fade, InputAdornment, Button } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
@@ -17,13 +20,20 @@ import {
   ModalContainer,
   ModalTitle,
 } from 'components/shared';
+import { useEffect } from 'react';
 
-export const ContactModal = ({ context, isOpened, setIsOpened }) => {
-  const [addContact, { isLoading }] = useAddContactMutation();
+export const ContactModal = ({ contact, isOpened, setIsOpened }) => {
+  const [addContact, { isLoading: isAddContactLoading }] =
+    useAddContactMutation();
+  const [editContact, { isLoading: isEditContactLoading }] =
+    useEditContactMutation();
+
   const {
     control,
     handleSubmit,
     reset,
+    setValue,
+    // getValues,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(contactSchema),
@@ -35,19 +45,58 @@ export const ContactModal = ({ context, isOpened, setIsOpened }) => {
     },
   });
 
+  useEffect(() => {
+    if (contact && isOpened) {
+      Object.entries(contact).forEach(value => setValue(...value));
+    }
+  }, [contact, isOpened, setValue]);
+
   const closeModal = () => {
-    reset();
+    !contact && reset();
     setIsOpened(false);
   };
 
-  const onContactFormSubmit = ({ firstName, secondName, email, number }) =>
-    addContact({
-      name: JSON.stringify({ firstName, secondName, email }),
-      number,
-    })
-      .unwrap()
-      .then(closeModal)
-      .catch(() => console.log('error!!!!!!!!!!!!!!!!!!!!!!!!!'));
+  // const disabledStateHandle = () => {
+  //   if (contact) {
+  //     const formValues = getValues();
+
+  //     const valuesComparsion = [
+  //       formValues.firstName === defaultValues.firstName,
+  //       formValues.secondName === defaultValues.secondName,
+  //       formValues.email === defaultValues.email,
+  //       formValues.number === defaultValues.number,
+  //     ];
+
+  //     console.log(valuesComparsion.every(value => value === true));
+  //   }
+  // };
+
+  // disabledStateHandle();
+
+  const onContactFormSubmit = ({ firstName, secondName, email, number }) => {
+    const name = JSON.stringify({ firstName, secondName, email });
+
+    if (contact) {
+      editContact({
+        id: contact.id,
+        body: {
+          name,
+          number,
+        },
+      })
+        .unwrap()
+        .then(closeModal)
+        .catch(error => console.log('error!!!!!!!!!!!!!!!!!!!!!!!!!', error));
+    } else {
+      addContact({
+        name,
+        number,
+      })
+        .unwrap()
+        .then(closeModal)
+        .catch(() => console.log('error!!!!!!!!!!!!!!!!!!!!!!!!!'));
+    }
+  };
 
   const TextMaskCustom = forwardRef((props, ref) => {
     const { onChange, ...other } = props;
@@ -67,10 +116,7 @@ export const ContactModal = ({ context, isOpened, setIsOpened }) => {
   return (
     <Modal
       open={isOpened}
-      onClose={() => {
-        reset();
-        setIsOpened(false);
-      }}
+      onClose={closeModal}
       aria-labelledby="modal-title"
       closeAfterTransition
       BackdropComponent={Backdrop}
@@ -81,7 +127,7 @@ export const ContactModal = ({ context, isOpened, setIsOpened }) => {
       <Fade in={isOpened}>
         <ModalContainer>
           <ModalTitle id="modal-title">
-            {context === 'add' ? 'Add new contact' : 'Update contact'}
+            {contact ? 'Update contact' : 'Add new contact'}
           </ModalTitle>
           <form
             onSubmit={handleSubmit(onContactFormSubmit)}
@@ -100,7 +146,7 @@ export const ContactModal = ({ context, isOpened, setIsOpened }) => {
                   label="First Name"
                   error={errors.firstName ? true : false}
                   helperText={errors.firstName ? errors.firstName.message : ' '}
-                  disabled={isLoading}
+                  disabled={isAddContactLoading || isEditContactLoading}
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="end">
@@ -125,7 +171,7 @@ export const ContactModal = ({ context, isOpened, setIsOpened }) => {
                   helperText={
                     errors.secondName ? errors.secondName.message : ' '
                   }
-                  disabled={isLoading}
+                  disabled={isAddContactLoading || isEditContactLoading}
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="end">
@@ -148,7 +194,7 @@ export const ContactModal = ({ context, isOpened, setIsOpened }) => {
                   label="Email"
                   error={errors.email ? true : false}
                   helperText={errors.email ? errors.email.message : ' '}
-                  disabled={isLoading}
+                  disabled={isAddContactLoading || isEditContactLoading}
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="end">
@@ -171,7 +217,7 @@ export const ContactModal = ({ context, isOpened, setIsOpened }) => {
                   label="Phone Number"
                   error={errors.number ? true : false}
                   helperText={errors.number ? errors.number.message : ' '}
-                  disabled={isLoading}
+                  disabled={isAddContactLoading || isEditContactLoading}
                   autoFocus={errors.number ? true : false}
                   InputProps={{
                     inputComponent: TextMaskCustom,
@@ -199,21 +245,26 @@ export const ContactModal = ({ context, isOpened, setIsOpened }) => {
                 variant="contained"
                 fullWidth
                 tabIndex={4}
-                loading={isLoading}
+                loading={isAddContactLoading || isEditContactLoading}
                 disabled={
                   errors.firstName ||
                   errors.secondName ||
                   errors.email ||
                   errors.number ||
-                  isLoading
+                  isAddContactLoading ||
+                  isEditContactLoading
                     ? true
                     : false
                 }
               >
-                {context === 'add' ? 'Add' : 'Update'}
+                {contact ? 'Update' : 'Add'}
               </LoadingButton>
             </ButtonsContainer>
-            <ComonLinearProgress isvisible={isLoading ? '1' : '0'} />
+            <ComonLinearProgress
+              isvisible={
+                isAddContactLoading || isEditContactLoading ? '1' : '0'
+              }
+            />
           </form>
         </ModalContainer>
       </Fade>
@@ -222,7 +273,13 @@ export const ContactModal = ({ context, isOpened, setIsOpened }) => {
 };
 
 ContactModal.propTypes = {
-  context: PropTypes.string.isRequired,
+  contact: PropTypes.exact({
+    id: PropTypes.string.isRequired,
+    firstName: PropTypes.string.isRequired,
+    secondName: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired,
+    number: PropTypes.string.isRequired,
+  }),
   isOpened: PropTypes.bool.isRequired,
   setIsOpened: PropTypes.func.isRequired,
 };

@@ -17,10 +17,12 @@ import {
   PhoneLinkContainer,
   EmailLinkContainer,
 } from './ContactCardStyled';
+import { ContactModal } from 'components/ContactModal';
 
 export const ContactCard = ({ contact }) => {
   const { id, firstName, secondName, email, number } = contact;
   const [isMenuOpened, setIsMenuOpened] = useState(false);
+  const [isContactModalOpened, setIsContactModalOpened] = useState(false);
   const [isDeletePromptOpened, setIsDeletePromptOpened] = useState(false);
 
   return (
@@ -46,9 +48,15 @@ export const ContactCard = ({ contact }) => {
         </ContactContent>
       </ContentDivider>
       <ContactMenu
-        isMenuOpened={isMenuOpened}
-        setIsMenuOpened={setIsMenuOpened}
+        isOpened={isMenuOpened}
+        setIsOpened={setIsMenuOpened}
+        setIsContactModalOpened={setIsContactModalOpened}
         setIsDeletePromptOpened={setIsDeletePromptOpened}
+      />
+      <ContactModal
+        contact={contact}
+        isOpened={isContactModalOpened}
+        setIsOpened={setIsContactModalOpened}
       />
       <DeleteContactPrompt
         id={id}
