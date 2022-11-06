@@ -88,7 +88,7 @@ export const SecondName = styled('p')`
   }
 `;
 
-export const PhoneLinkContainer = styled('a')`
+export const PhoneLink = styled('a')`
   display: flex;
   align-items: center;
 
@@ -128,11 +128,11 @@ export const PhoneLinkContainer = styled('a')`
   }
 
   @media screen and (min-width: 768px) {
-    font-size: 24px;
+    font-size: 22px;
   }
 `;
 
-export const EmailLinkContainer = styled('a')`
+export const EmailLink = styled('a')`
   display: flex;
   align-items: center;
 

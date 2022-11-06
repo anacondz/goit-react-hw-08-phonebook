@@ -14,8 +14,8 @@ import {
   FirstName,
   SecondName,
   ContactContent,
-  PhoneLinkContainer,
-  EmailLinkContainer,
+  PhoneLink,
+  EmailLink,
 } from './ContactCardStyled';
 import { ContactModal } from 'components/ContactModal';
 
@@ -35,15 +35,15 @@ export const ContactCard = ({ contact }) => {
             <SecondName>{secondName}</SecondName>
             <Divider />
           </NameContainer>
-          <PhoneLinkContainer href={`tel:${number}`}>
+          <PhoneLink href={`tel:${number}`}>
             <PhoneAndroidOutlinedIcon color="primary" />
             {cardNumberFormating(number)}
-          </PhoneLinkContainer>
+          </PhoneLink>
           {email ? (
-            <EmailLinkContainer href={`mailto:${email.toLowerCase()}`}>
+            <EmailLink href={`mailto:${email.toLowerCase()}`}>
               <AlternateEmailOutlinedIcon color="primary" />
               {email.toLowerCase()}
-            </EmailLinkContainer>
+            </EmailLink>
           ) : null}
         </ContactContent>
       </ContentDivider>
