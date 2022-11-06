@@ -1,6 +1,8 @@
 import { styled } from '@mui/material/styles';
 
 export const CardContainer = styled('li')`
+  position: relative;
+
   max-width: 350px;
   width: 100%;
   padding: 15px;
@@ -9,11 +11,16 @@ export const CardContainer = styled('li')`
 
   border-radius: 10px;
 
-  opacity: 0.9;
+  opacity: ${({ isMenuOpened }) => (isMenuOpened ? 0.5 : 0.95)};
 
   overflow: hidden;
 
   box-shadow: ${({ theme }) => theme.shadows[6]};
+
+  transition: ${({ theme }) =>
+    theme.transitions.create(['opacity', 'transform'], {
+      duration: theme.transitions.duration.standard,
+    })};
 
   @media screen and (min-width: 768px) {
     max-width: 450px;

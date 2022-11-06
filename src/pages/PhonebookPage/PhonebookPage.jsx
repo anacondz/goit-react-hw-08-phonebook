@@ -1,5 +1,5 @@
 import { ContactCard } from 'components/ContactCard/ContactCard';
-import { InvisiblePageTitle } from 'components/shared/InvisiblePageTitleStyled';
+import { InvisiblePageTitle } from 'components/shared';
 import { useGetContactsQuery } from 'redux/contacts/contactsApi';
 import { ContactList } from './PhonebookPageStyled';
 

@@ -42,7 +42,7 @@ export const FirstLetter = styled('span')`
 
   text-transform: uppercase;
 
-  transform: translateY(-55%);
+  transform: translateY(-52%);
 
   @media screen and (min-width: 768px) {
     font-size: 112px;
@@ -65,7 +65,7 @@ export const SecondLetter = styled('span')`
 
   text-transform: uppercase;
 
-  transform: translateY(-55%);
+  transform: translateY(-52%);
 
   @media screen and (min-width: 768px) {
     font-size: 92px;

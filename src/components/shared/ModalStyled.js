@@ -6,7 +6,8 @@ export const ModalContainer = styled('div')`
   left: 50%;
 
   min-width: 300px;
-  width: 380px;
+  width: calc(100% - 20px);
+  max-width: 400px;
   padding: 30px;
 
   background-color: white;

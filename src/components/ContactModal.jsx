@@ -16,9 +16,9 @@ import {
   ButtonsContainer,
   ModalContainer,
   ModalTitle,
-} from './ContactModalStyled';
+} from 'components/shared';
 
-export const ContactModal = ({ context, isOpen, setIsOpen }) => {
+export const ContactModal = ({ context, isOpened, setIsOpened }) => {
   const [addContact, { isLoading }] = useAddContactMutation();
   const {
     control,
@@ -37,7 +37,7 @@ export const ContactModal = ({ context, isOpen, setIsOpen }) => {
 
   const closeModal = () => {
     reset();
-    setIsOpen(false);
+    setIsOpened(false);
   };
 
   const onContactFormSubmit = ({ firstName, secondName, email, number }) =>
@@ -66,10 +66,10 @@ export const ContactModal = ({ context, isOpen, setIsOpen }) => {
 
   return (
     <Modal
-      open={isOpen}
+      open={isOpened}
       onClose={() => {
         reset();
-        setIsOpen(false);
+        setIsOpened(false);
       }}
       aria-labelledby="modal-title"
       closeAfterTransition
@@ -78,7 +78,7 @@ export const ContactModal = ({ context, isOpen, setIsOpen }) => {
         timeout: 500,
       }}
     >
-      <Fade in={isOpen}>
+      <Fade in={isOpened}>
         <ModalContainer>
           <ModalTitle id="modal-title">
             {context === 'add' ? 'Add new contact' : 'Update contact'}
@@ -223,6 +223,6 @@ export const ContactModal = ({ context, isOpen, setIsOpen }) => {
 
 ContactModal.propTypes = {
   context: PropTypes.string.isRequired,
-  isOpen: PropTypes.bool.isRequired,
-  setIsOpen: PropTypes.func.isRequired,
+  isOpened: PropTypes.bool.isRequired,
+  setIsOpened: PropTypes.func.isRequired,
 };

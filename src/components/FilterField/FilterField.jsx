@@ -8,10 +8,10 @@ import {
   SearchIconWrapper,
   StyledInputBase,
 } from './FilterFieldStyled';
-import { ContactModal } from 'components/ContactModal/ContactModal';
+import { ContactModal } from 'components/ContactModal';
 
 export const FilterField = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpened, setIsModalOpened] = useState(false);
 
   return (
     <FilterContainer>
@@ -27,14 +27,14 @@ export const FilterField = () => {
       <AddButton
         variant="contained"
         endIcon={<PersonAddIcon />}
-        onClick={() => setIsModalOpen(true)}
+        onClick={() => setIsModalOpened(true)}
       >
         Add
       </AddButton>
       <ContactModal
         context="add"
-        isOpen={isModalOpen}
-        setIsOpen={setIsModalOpen}
+        isOpened={isModalOpened}
+        setIsOpened={setIsModalOpened}
       />
     </FilterContainer>
   );

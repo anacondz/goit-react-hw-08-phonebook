@@ -1,9 +1,12 @@
 import PropTypes from 'prop-types';
+import { useState } from 'react';
 import PhoneAndroidOutlinedIcon from '@mui/icons-material/PhoneAndroidOutlined';
 import AlternateEmailOutlinedIcon from '@mui/icons-material/AlternateEmailOutlined';
 import { Divider } from '@mui/material';
 import { cardNumberFormating } from 'utilities/cardNumberFormating';
 import { ContactAvatar } from 'components/ContactAvatar/ContactAvatar';
+import { ContactMenu } from 'components/ContactMenu/ContactMenu';
+import { DeleteContactPrompt } from 'components/DeleteContactPrompt/DeleteContactPrompt';
 import {
   CardContainer,
   ContentDivider,
@@ -16,10 +19,12 @@ import {
 } from './ContactCardStyled';
 
 export const ContactCard = ({ contact }) => {
-  const { firstName, secondName, email, number } = contact;
+  const { id, firstName, secondName, email, number } = contact;
+  const [isMenuOpened, setIsMenuOpened] = useState(false);
+  const [isDeletePromptOpened, setIsDeletePromptOpened] = useState(false);
 
   return (
-    <CardContainer>
+    <CardContainer isMenuOpened={isMenuOpened}>
       <ContentDivider>
         <ContactAvatar firstName={firstName} secondName={secondName} />
         <ContactContent>
@@ -40,6 +45,21 @@ export const ContactCard = ({ contact }) => {
           ) : null}
         </ContactContent>
       </ContentDivider>
+      <ContactMenu
+        id={id}
+        firstName={firstName}
+        secondName={secondName}
+        isMenuOpened={isMenuOpened}
+        setIsMenuOpened={setIsMenuOpened}
+        setIsDeletePromptOpened={setIsDeletePromptOpened}
+      />
+      <DeleteContactPrompt
+        id={id}
+        firstName={firstName}
+        secondName={secondName}
+        isOpened={isDeletePromptOpened}
+        setIsOpened={setIsDeletePromptOpened}
+      />
     </CardContainer>
   );
 };
