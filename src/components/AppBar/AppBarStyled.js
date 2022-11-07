@@ -9,10 +9,49 @@ export const StyledAppBar = styled(AppBar)`
   justify-content: space-between;
   align-items: center;
 
+  min-height: 76px;
   padding: 14px 20px;
 `;
 
-export const PageLogo = styled('h1')`
+export const UnauthorizedPageLogo = styled('h1')`
+  margin: 0;
+
+  font-size: 14px;
+
+  @media screen and (min-width: 340px) {
+    font-size: 16px;
+  }
+
+  @media screen and (min-width: 360px) {
+    font-size: 18px;
+  }
+
+  @media screen and (min-width: 380px) {
+    font-size: 20px;
+  }
+
+  @media screen and (min-width: 400px) {
+    font-size: 22px;
+  }
+
+  @media screen and (min-width: 420px) {
+    font-size: 24px;
+  }
+
+  @media screen and (min-width: 440px) {
+    font-size: 28px;
+  }
+
+  @media screen and (min-width: 480px) {
+    font-size: 34px;
+  }
+
+  @media screen and (min-width: 520px) {
+    font-size: 36px;
+  }
+`;
+
+export const AuthorizedPageLogo = styled('h1')`
   @media screen and (max-width: 599.98px) {
     position: absolute;
     width: 1px;
@@ -27,10 +66,6 @@ export const PageLogo = styled('h1')`
     overflow: hidden;
   }
 
-  display: flex;
-  align-items: center;
-
-  height: 48px;
   margin: 0;
 
   font-size: 14px;
