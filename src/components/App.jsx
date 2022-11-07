@@ -24,15 +24,15 @@ export const App = () => {
         <Route path="/" element={<MainLayout />}>
           <Route
             index
+            element={<PrivateRoute component={<PhonebookPage />} />}
+          />
+          <Route
+            path="login"
             element={<PublicRestrictedRoute component={<LoginPage />} />}
           />
           <Route
-            path="/register"
+            path="register"
             element={<PublicRestrictedRoute component={<RegisterPage />} />}
-          />
-          <Route
-            path="/phonebook"
-            element={<PrivateRoute component={<PhonebookPage />} />}
           />
         </Route>
         <Route path="*" element={<Navigate to="/" />} />

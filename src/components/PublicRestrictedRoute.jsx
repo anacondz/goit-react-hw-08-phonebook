@@ -3,7 +3,7 @@ import { Navigate } from 'react-router-dom';
 
 export const PublicRestrictedRoute = ({
   component: Component,
-  redirectTo = '/phonebook',
+  redirectTo = '/',
 }) => {
   const { isLoggedIn } = useAuth();
 
